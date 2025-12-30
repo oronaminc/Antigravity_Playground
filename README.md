@@ -7,6 +7,9 @@ A modern, fast-paced Brick Breaker game built with Vanilla JavaScript and HTML5 
 - **Move Paddle**: Use `Left Arrow` and `Right Arrow` keys
 - **Goal**: Break all bricks without losing all your lives!
 
+## 🎥 Gameplay Preview
+![Gameplay](assets/gameplay.webp)
+
 ## ✨ Features
 - **Glassmorphism UI**: Stylish visual effects with gradients and blur.
 - **Dynamic Physics**: Fast-paced ball movement and paddle deflection.
