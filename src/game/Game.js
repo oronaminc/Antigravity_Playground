@@ -31,40 +31,49 @@ export default class Game {
         document.getElementById('restart-btn').addEventListener('click', () => this.restart());
         document.getElementById('victory-restart-btn').addEventListener('click', () => this.restart());
 
-        // Touch Inputs
-        const canvas = document.getElementById('gameCanvas');
-        canvas.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
-        canvas.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
+        // Global Input Handling
+        document.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
+        document.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
 
         this.buildLevel();
     }
 
     handleTouchStart(e) {
-        if (e.cancelable) e.preventDefault();
+        // Prevent default only if inside game container to avoid blocking all page interactions? 
+        // Actually, for a game, we often want to prevent default scrolling on the whole page.
+        // Let's check if the touch is within our game-container or if we just want full control.
+
+        // Simple heuristic: If we are in valid states, handle it.
         if (this.gamestate === 'MENU' || this.gamestate === 'GAMEOVER' || this.gamestate === 'VICTORY') {
+            // Don't auto-start if clicking a button (which handles its own click)
+            if (e.target.tagName === 'BUTTON') return;
+
             if (this.gamestate === 'GAMEOVER' || this.gamestate === 'VICTORY') {
-                this.restart();
-            } else {
+                // Buttons handle restart, but touching elsewhere could also restart?
+                // Let's stick to buttons for restart to be explicit, or just allow tap anywhere.
+                // User asked for "touch to start".
+                // Let's allow tap anywhere for MENU.
+            } else if (this.gamestate === 'MENU') {
+                // If MENU, start on any touch
                 this.start();
+                e.preventDefault();
             }
         }
     }
 
     handleTouchMove(e) {
-        if (e.cancelable) e.preventDefault();
         if (this.gamestate === 'RUNNING') {
+            e.preventDefault(); // Prevent scrolling while playing
             const canvas = document.getElementById('gameCanvas');
             const rect = canvas.getBoundingClientRect();
+            // Use the first touch
             const touchX = e.touches[0].clientX - rect.left;
 
-            // Map touch X to paddle position (centering the paddle on touch)
-            // Scale logic if canvas is resized via CSS
             const scaleX = this.gameWidth / rect.width;
             const gameX = touchX * scaleX;
 
             this.paddle.position.x = gameX - this.paddle.width / 2;
 
-            // Clamp
             if (this.paddle.position.x < 0) this.paddle.position.x = 0;
             if (this.paddle.position.x + this.paddle.width > this.gameWidth)
                 this.paddle.position.x = this.gameWidth - this.paddle.width;
