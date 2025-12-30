@@ -31,7 +31,44 @@ export default class Game {
         document.getElementById('restart-btn').addEventListener('click', () => this.restart());
         document.getElementById('victory-restart-btn').addEventListener('click', () => this.restart());
 
+        // Touch Inputs
+        const canvas = document.getElementById('gameCanvas');
+        canvas.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
+        canvas.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
+
         this.buildLevel();
+    }
+
+    handleTouchStart(e) {
+        if (e.cancelable) e.preventDefault();
+        if (this.gamestate === 'MENU' || this.gamestate === 'GAMEOVER' || this.gamestate === 'VICTORY') {
+            if (this.gamestate === 'GAMEOVER' || this.gamestate === 'VICTORY') {
+                this.restart();
+            } else {
+                this.start();
+            }
+        }
+    }
+
+    handleTouchMove(e) {
+        if (e.cancelable) e.preventDefault();
+        if (this.gamestate === 'RUNNING') {
+            const canvas = document.getElementById('gameCanvas');
+            const rect = canvas.getBoundingClientRect();
+            const touchX = e.touches[0].clientX - rect.left;
+
+            // Map touch X to paddle position (centering the paddle on touch)
+            // Scale logic if canvas is resized via CSS
+            const scaleX = this.gameWidth / rect.width;
+            const gameX = touchX * scaleX;
+
+            this.paddle.position.x = gameX - this.paddle.width / 2;
+
+            // Clamp
+            if (this.paddle.position.x < 0) this.paddle.position.x = 0;
+            if (this.paddle.position.x + this.paddle.width > this.gameWidth)
+                this.paddle.position.x = this.gameWidth - this.paddle.width;
+        }
     }
 
     start() {
