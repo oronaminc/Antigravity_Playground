@@ -1,47 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Premium Brick Breaker</title>
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="app">
-      <div class="game-container">
-        <div class="ui-layer">
-          <div class="score-board">
-            <div class="score-item">
-              <span class="label">SCORE</span>
-              <span class="value" id="score">0000</span>
-            </div>
-            <div class="score-item">
-              <span class="label">LIVES</span>
-              <span class="value" id="lives">3</span>
-            </div>
-          </div>
-          <div id="start-screen" class="screen active">
-            <h1>BRICK<br>BREAKER</h1>
-            <p>Press Space to Start</p>
-          </div>
-          <div id="game-over-screen" class="screen hidden">
-            <h1>GAME OVER</h1>
-            <p>Score: <span id="final-score">0</span></p>
-            <button id="restart-btn">Try Again</button>
-          </div>
-           <div id="victory-screen" class="screen hidden">
-            <h1>YOU WIN!</h1>
-            <p>Score: <span id="victory-score">0</span></p>
-            <button id="victory-restart-btn">Play Again</button>
-          </div>
-        </div>
-        <canvas id="gameCanvas"></canvas>
-      </div>
-    </div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    ...
+    <script type="module" src="./src/main.js"></script>
+    </body>
+
 </html>
